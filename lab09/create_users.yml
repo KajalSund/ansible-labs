@@ -1,0 +1,12 @@
+---
+- name: Create user accounts with custom UIDs
+  hosts: linux
+  become: yes
+
+  tasks:
+    - name: Create users with loop
+      ansible.builtin.user:
+        name: "{{ item.name }}"
+        uid: "{{ item.uid }}"
+        state: present
+      loop: "{{ users }}"

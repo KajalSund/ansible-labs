@@ -1,0 +1,9 @@
+- name: Install group-specific package
+  hosts: linux
+  become: true
+  tasks:
+    - name: Install group package
+      apt:
+        name: "{{ pkgname }}"
+        state: present
+        update_cache: true

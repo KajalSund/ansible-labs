@@ -1,0 +1,10 @@
+- name: Install packages using host vars
+  hosts: n01737472-c-vm-1.canadacentral.cloudapp.azure.com
+  become: true
+  tasks:
+    - name: Install host-specific packages
+      apt:
+        name: "{{ item }}"
+        state: present
+        update_cache: true
+      loop: "{{ pkglist }}"

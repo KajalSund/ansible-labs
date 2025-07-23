@@ -1,0 +1,32 @@
+- name: Copy /etc/issue to VM1 with correct perms
+  hosts: n01737472-c-vm-1.canadacentral.cloudapp.azure.com
+  become: true
+  tasks:
+    - name: Copy /etc/issue with ownership and perms
+      copy:
+        src: ~/issue    # the local path on your Mac
+        dest: /etc/issue
+        owner: user4000
+        group: cloudadmins
+        mode: '0444'
+
+- name: Change timezone to America/Edmonton
+  hosts: linux
+  become: true
+  tasks:
+    - name: Set timezone
+      timezone:
+        name: America/Edmonton
+- name: Create devops user/group on VM2
+  hosts: n01737472-c-vm-2.canadacentral.cloudapp.azure.com
+  become: true
+  tasks:
+    - name: Create group devops
+      group:
+        name: devops
+    - name: Create user devops1
+      user:
+        name: devops1
+        uid: 2500
+        groups: devops
+        append: yes

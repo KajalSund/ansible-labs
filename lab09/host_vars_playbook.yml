@@ -1,0 +1,27 @@
+---
+- name: Install packages using system Python and capture output
+  hosts: linux
+  become: true
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+      when: ansible_facts['os_family'] == "Debian"
+
+    - name: Install packages using apt
+      apt:
+        name: "{{ item }}"
+        state: present
+      loop: "{{ pkglist }}"
+      register: install_output
+
+    - name: Display full task output
+      debug:
+        var: install_output
+
+    - name: Display installed package names and state
+      debug:
+        msg: "{{ item.item }} was {{ 'changed' if item.changed else 'already installed' }}"
+      loop: "{{ install_output.results }}"
+      when: item is defined and item.item is defined
+

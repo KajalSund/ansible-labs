@@ -1,0 +1,19 @@
+---
+- name: Check if Humber ID exists on nodes
+  hosts: linux
+  gather_facts: yes
+  tasks:
+    - name: Check if user with Humber ID exists
+      ansible.builtin.shell: id n01737472
+      register: humber_user_check
+      ignore_errors: true
+
+    - name: Display result only if user exists
+      debug:
+        msg: "User n01737472 exists on {{ inventory_hostname }}"
+      when: humber_user_check.rc == 0
+
+    - name: Display result only if user does NOT exist
+      debug:
+        msg: "User n01737472 does NOT exist on {{ inventory_hostname }}"
+      when: humber_user_check.rc != 0

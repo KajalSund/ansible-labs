@@ -1,0 +1,14 @@
+---
+- name: Add string to file if RHEL version is 8.2 and kernel version is 4.18.0-193.el8.x86_64
+  hosts: linux
+  gather_facts: yes
+  tasks:
+    - name: Add line only if RHEL and kernel version match
+      ansible.builtin.blockinfile:
+        path: /tmp/conditional
+        block: |
+          This is my CentOS VM
+      when:
+        - ansible_distribution == "RedHat"
+        - ansible_distribution_version == "8.2"
+        - ansible_kernel == "4.18.0-193.el8.x86_64"

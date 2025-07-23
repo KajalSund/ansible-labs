@@ -1,0 +1,27 @@
+---
+- name: Capture and display package facts on a single Linux node
+  hosts: n01737472-c-vm-1-n01737472.eastus.cloudapp.azure.com
+  gather_facts: yes
+  tasks:
+    - name: Display all gathered facts
+      debug:
+        var: ansible_facts
+
+    - name: Display FQDN, IPv4 address, and short hostname
+      debug:
+        msg:
+          - "FQDN: {{ ansible_facts['fqdn'] }}"
+          - "IPv4 Address: {{ ansible_facts['all_ipv4_addresses'] }}"
+          - "Short Hostname: {{ ansible_facts['hostname'] }}"
+
+- name: Get package facts for 'setup' package on a single Linux node
+  hosts: n01737472-c-vm-1-n01737472.eastus.cloudapp.azure.com
+  gather_facts: no
+  tasks:
+    - name: Get package facts
+      package_facts:
+        manager: auto
+
+    - name: Show version of package 'setup'
+      debug:
+        msg: "{{ ansible_facts.packages['setup'] if 'setup' in ansible_facts.packages else 'Package not found' }}"

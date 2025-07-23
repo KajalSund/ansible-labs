@@ -1,0 +1,31 @@
+- name: Use in-playbook variables
+  hosts: n01737472-c-vm-1.canadacentral.cloudapp.azure.com
+  become: true
+  vars:
+    grouplist1: group10
+    grouplist2: group20
+    userlist1: user10
+    userlist2: user20
+  tasks:
+    - name: Create groups
+      group:
+        name: "{{ item }}"
+      loop:
+        - "{{ grouplist1 }}"
+        - "{{ grouplist2 }}"
+
+    - name: Create user10 with group10
+      user:
+        name: "{{ userlist1 }}"
+        uid: 1800
+        groups: "{{ grouplist1 }}"
+        append: yes
+
+    - name: Create user20 with group20 and shell/home
+      user:
+        name: "{{ userlist2 }}"
+        uid: 1900
+        shell: /bin/bash
+        home: "/home/{{ userlist2 }}"
+        groups: "{{ grouplist2 }}"
+        append: yes

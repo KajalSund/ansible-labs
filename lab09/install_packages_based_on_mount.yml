@@ -1,0 +1,19 @@
+---
+- name: Install packages only if root mount has enough space
+  hosts: n01737472-c-vm-2-n01737472.eastus.cloudapp.azure.com
+  become: yes
+  gather_facts: yes
+
+  tasks:
+    - name: Check if / has >= 2GB available
+      set_fact:
+        install_condition: "{{ item.size_available | int >= 2147483648 }}"
+      when: item.mount == '/'
+      loop: "{{ ansible_mounts }}"
+    
+    - name: Install packages if condition is met
+      ansible.builtin.package:
+        name: "{{ item }}"
+        state: present
+      loop: "{{ packages }}"
+      when: install_condition | default(false)

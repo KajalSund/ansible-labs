@@ -1,0 +1,14 @@
+---
+- name: Install nmap conditionally
+  hosts: n01737472-c-vm-1-n01737472.eastus.cloudapp.azure.com
+  become: yes
+  vars:
+    install_nmap: true   
+
+  tasks:
+    - name: Install nmap if install_nmap is defined and true
+      apt:
+        name: nmap
+        state: present
+        update_cache: yes
+      when: install_nmap is defined and install_nmap

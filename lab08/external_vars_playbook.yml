@@ -1,0 +1,28 @@
+- name: Use external vars file
+  hosts: n01737472-c-vm-1.canadacentral.cloudapp.azure.com
+  become: true
+  vars_files:
+    - user_vars/userinfo.yml
+  tasks:
+    - name: Create groups
+      group:
+        name: "{{ item }}"
+      loop:
+        - "{{ grouplist1 }}"
+        - "{{ grouplist2 }}"
+
+    - name: Create user100
+      user:
+        name: "{{ userlist1 }}"
+        uid: 2800
+        groups: "{{ grouplist1 }}"
+        append: yes
+
+    - name: Create user200 with shell/home
+      user:
+        name: "{{ userlist2 }}"
+        uid: 2900
+        shell: /bin/bash
+        home: "/home/{{ userlist2 }}"
+        groups: "{{ grouplist2 }}"
+        append: yes

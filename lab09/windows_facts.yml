@@ -1,0 +1,15 @@
+---
+- name: Capture and display all facts for Windows node
+  hosts: n01737472-w-vm1-n01737472.eastus.cloudapp.azure.com
+  gather_facts: yes
+  tasks:
+    - name: Display all gathered facts
+      debug:
+        var: ansible_facts
+
+    - name: Display computer name, domain, and IP addresses
+      debug:
+        msg:
+          - "Computer Name: {{ ansible_facts['env']['COMPUTERNAME'] | default(ansible_facts['hostname'], true) }}"
+          - "FQDN: {{ ansible_facts['fqdn'] | default('N/A') }}"
+          - "IPv4 Addresses: {{ ansible_facts['ip_addresses'] | default([]) }}"

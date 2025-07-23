@@ -1,0 +1,8 @@
+pkglist:
+  - nginx
+  - net-tools
+
+packages:
+  - mariadb-server
+  - dracut
+  - snapd
