@@ -1,0 +1,24 @@
+---
+# Removed the creation of locfile on control machine to avoid sudo issues.
+
+- name: Copy '{{ locfile_name }}' to managed nodes
+  copy:
+    src: "{{ locfile_name }}"
+    dest: "{{ locfile_dest }}"
+    owner: "{{ locfile_owner }}"
+    group: "{{ locfile_group }}"
+    mode: "{{ locfile_mode }}"
+
+- name: Display status of '{{ locfile_dest }}'
+  stat:
+    path: "{{ locfile_dest }}"
+  register: locfile_stat
+
+- name: Show file status
+  debug:
+    var: locfile_stat
+
+- name: Create empty file '{{ emptyfile_name }}' in managed user's home directory
+  file:
+    path: "{{ emptyfile_dest }}"
+    state: touch

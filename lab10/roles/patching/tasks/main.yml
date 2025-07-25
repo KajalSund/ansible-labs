@@ -1,0 +1,7 @@
+---
+- name: Update all installed packages to latest
+  yum:
+    name: '*'
+    state: latest
+  notify: reboot system
+  when: ansible_facts['os_family'] == 'RedHat'

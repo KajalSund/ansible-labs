@@ -1,0 +1,9 @@
+---
+locfile_name: locfile
+locfile_dest: /tmp/locfile
+locfile_owner: "{{ ansible_user }}"
+locfile_group: root
+locfile_mode: '0444'
+
+emptyfile_name: emptyfile
+emptyfile_dest: "{{ ansible_env.HOME }}/{{ emptyfile_name }}"

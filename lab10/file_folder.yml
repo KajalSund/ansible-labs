@@ -1,0 +1,33 @@
+---
+- name: Manage files and folders on Ubuntu VM
+  hosts: linux
+  become: no
+  tasks:
+    - name: Create an empty file 'locfile' on control machine
+      local_action:
+        module: file
+        path: ./locfile
+        state: touch
+      become: no
+    - name: Copy 'locfile' to managed nodes /tmp with proper ownership and permissions
+      copy:
+        src: ./locfile
+        dest: /tmp/locfile
+        owner: "{{ ansible_user }}"
+        group: root
+        mode: '0444'
+      become: yes
+
+    - name: Display status of /tmp/locfile on managed nodes
+      stat:
+        path: /tmp/locfile
+      register: locfile_stat
+
+    - name: Show file status
+      debug:
+        var: locfile_stat
+
+    - name: Create empty file 'emptyfile' in managed node user's home directory
+      file:
+        path: "/home/{{ ansible_user }}/emptyfile"
+        state: touch

@@ -1,0 +1,19 @@
+---
+- name: Add line to /etc/rsyslog.conf
+  blockinfile:
+    path: /etc/rsyslog.conf
+    block: |
+      $FileCreateMode 0640
+
+- name: Set rsyslog.d directory ownership and permissions
+  file:
+    path: /etc/rsyslog.d
+    owner: root
+    group: root
+    mode: '0640'
+    recurse: yes
+
+- name: Set /var/log directory permissions
+  file:
+    path: /var/log
+    mode: '0775'

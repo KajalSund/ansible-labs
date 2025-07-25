@@ -1,0 +1,32 @@
+# SSH private keys and sensitive credentials
+id_rsa
+id_rsa_*
+*.pem
+*.key
+
+# Ansible retry files (auto-created after playbook failures)
+*.retry
+
+# Editor settings and system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Python cache files (if you used Python scripts)
+__pycache__/
+*.pyc
+*.pyo
+
+# Backup or temp files
+*~
+*.swp
+*.bak
+*.tmp
+
+# Test outputs or logs (if any)
+*.log
+
+# Inventory with sensitive data (optional, if it contains real IPs/usernames)
+hosts
+inventory

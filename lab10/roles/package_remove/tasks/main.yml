@@ -1,0 +1,6 @@
+---
+- name: Remove unwanted packages
+  package:
+    name: "{{ packages_to_remove }}"
+    state: absent
+  when: ansible_facts['os_family'] in ['RedHat', 'CentOS']
